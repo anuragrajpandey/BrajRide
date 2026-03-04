@@ -180,7 +180,7 @@ Example locations included in the dataset:
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/brajride.git
+git clone https://github.com/anuragrajpandey/BrajRide.git
 ```
 
 ---
@@ -233,9 +233,7 @@ Possible upgrades for real deployment:
 
 Built with ❤️ by
 
-**Anurag Raj Pandey**
-**Astha Parua**
-**Ayush Upadhyay**
+**Anurag Raj Pandey**, **Astha Parua**, **Ayush Upadhyay**
 
 ---
 
