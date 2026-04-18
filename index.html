@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrajRide — Braj Village Transport</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── LOADING ─────────────────────────────────────────────── -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-lbl">Finding rides…</div>
+</div>
+
+<!-- ── TOAST ───────────────────────────────────────────────── -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ── SIDEBAR BACKDROP (mobile) ───────────────────────────── -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="app-shell">
+
+  <!-- ════════════════════════════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="logo-badge">🛺</div>
+      <div>
+        <div class="logo-text">BrajRide</div>
+        <div class="logo-sub">Mathura &amp; Nearby Villages</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="goScreen('home')" data-screen="home">
+        <span class="ni-icon">🏠</span><span class="ni-label">Home</span>
+      </button>
+      <button class="nav-item" onclick="goScreen('book')" data-screen="book">
+        <span class="ni-icon">🔍</span><span class="ni-label">Book a Ride</span>
+      </button>
+      <button class="nav-item" onclick="goScreen('tickets')" data-screen="tickets">
+        <span class="ni-icon">🎫</span><span class="ni-label">My Tickets</span>
+      </button>
+      <button class="nav-item" onclick="goScreen('help')" data-screen="help">
+        <span class="ni-icon">❓</span><span class="ni-label">Help &amp; Support</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-label">Built by</div>
+      <div class="sidebar-footer-name">
+        Anurag Raj Pandey<br>
+        Astha Parua<br>
+        Ayush Upadhyay
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ════════════════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════════════ -->
+  <div class="main-content">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mobile-menu-btn" id="menuBtn" onclick="toggleSidebar()">☰</button>
+        <div>
+          <div class="topbar-title" id="topbarTitle">Home</div>
+          <div class="topbar-sub"   id="topbarSub">Welcome back, यात्री!</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn"         onclick="goScreen('tickets')">🎫 Tickets</button>
+        <button class="topbar-btn primary" onclick="goScreen('book')">+ Book Ride</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN: HOME
+    ══════════════════════════════════════ -->
+    <div class="screen active page" id="screen-home">
+
+      <div class="hero-wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-greeting">नमस्ते, यात्री!</div>
+            <div class="hero-title">Travel around<br><span>Braj</span> easily</div>
+            <div class="hero-stats">
+              <div class="hero-stat"><div class="val">120+</div><div class="lbl">Routes</div></div>
+              <div class="hero-stat"><div class="val">850+</div><div class="lbl">Daily Trips</div></div>
+              <div class="hero-stat"><div class="val">₹15</div><div class="lbl">Starts from</div></div>
+            </div>
+          </div>
+          <div class="hero-bus">🚌</div>
+        </div>
+      </div>
+
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-grid">
+        <button class="quick-card accent" onclick="goScreen('book')">
+          <span class="qc-icon">🔍</span>
+          <div class="qc-title">Book Ticket</div>
+          <div class="qc-sub">Search &amp; book a ride</div>
+        </button>
+        <button class="quick-card" onclick="goScreen('tickets')">
+          <span class="qc-icon">🎫</span>
+          <div class="qc-title">My Tickets</div>
+          <div class="qc-sub">View your bookings</div>
+        </button>
+        <button class="quick-card" onclick="quickSearch('Mathura','Vrindavan')">
+          <span class="qc-icon">🛕</span>
+          <div class="qc-title">Vrindavan</div>
+          <div class="qc-sub">From Mathura</div>
+        </button>
+        <button class="quick-card" onclick="quickSearch('Mathura','Govardhan')">
+          <span class="qc-icon">⛰️</span>
+          <div class="qc-title">Govardhan</div>
+          <div class="qc-sub">From Mathura</div>
+        </button>
+      </div>
+
+      <div class="section-title">Popular Routes</div>
+      <div class="routes-grid" id="routesGrid"></div>
+
+      <div class="section-title">All Areas</div>
+      <div class="cities-grid" id="citiesGrid"></div>
+
+      <div class="team-footer">
+        <div class="tf-logo">🛺 BrajRide</div>
+        <div class="tf-tag">Connecting Braj, one ride at a time</div>
+        <div class="tf-label">Team</div>
+        <div class="tf-name">Anurag Raj Pandey · Astha Parua · Ayush Upadhyay</div>
+        <div class="tf-copy">© 2026 BrajRide · For Mathura &amp; Nearby Villages</div>
+      </div>
+
+    </div><!-- /screen-home -->
+
+    <!-- ══════════════════════════════════════
+         SCREEN: BOOK
+    ══════════════════════════════════════ -->
+    <div class="screen page" id="screen-book">
+      <div class="book-layout">
+
+        <!-- LEFT: Booking form -->
+        <div class="book-form-panel">
+          <div class="bp-title">Book a Ride</div>
+
+          <!-- Vehicle type -->
+          <div class="type-row" id="typeRow">
+            <button class="type-btn selected" onclick="selType(this,'bus')">
+              <span class="tb-icon">🚌</span><span class="tb-lbl">Bus</span>
+            </button>
+            <button class="type-btn" onclick="selType(this,'mini')">
+              <span class="tb-icon">🚐</span><span class="tb-lbl">Mini Bus</span>
+            </button>
+            <button class="type-btn" onclick="selType(this,'auto')">
+              <span class="tb-icon">🛺</span><span class="tb-lbl">Auto/Jeep</span>
+            </button>
+          </div>
+
+          <!-- From / To -->
+          <div style="position:relative">
+            <div class="loc-group">
+              <div class="loc-row" onclick="openPicker('from')">
+                <div class="loc-dot dot-from">📍</div>
+                <div class="loc-texts">
+                  <div class="loc-lbl">From</div>
+                  <div class="loc-val ph" id="fromDisplay">Select starting point</div>
+                </div>
+              </div>
+              <div class="loc-divider"></div>
+              <div class="loc-row" onclick="openPicker('to')">
+                <div class="loc-dot dot-to">🏁</div>
+                <div class="loc-texts">
+                  <div class="loc-lbl">To</div>
+                  <div class="loc-val ph" id="toDisplay">Select destination</div>
+                </div>
+              </div>
+            </div>
+            <button class="swap-btn" onclick="swapCities()">⇅</button>
+          </div>
+
+          <!-- Date & Passengers -->
+          <div class="dp-row">
+            <div class="dp-field">
+              <div class="dp-lbl">📅 Date</div>
+              <div class="dp-val"><input type="date" id="dateInput"></div>
+            </div>
+            <div class="dp-field">
+              <div class="dp-lbl">👥 Passengers</div>
+              <div class="dp-val">
+                <select id="passInput">
+                  <option value="1">1 Person</option>
+                  <option value="2">2 Persons</option>
+                  <option value="3">3 Persons</option>
+                  <option value="4">4 Persons</option>
+                  <option value="5">5 Persons</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button class="search-btn" onclick="doSearch()">
+            <span style="font-size:18px">🔍</span> Search Rides
+          </button>
+        </div><!-- /book-form-panel -->
+
+        <!-- RIGHT: Quick destinations (desktop only) -->
+        <div id="bookRightPanel">
+          <div class="section-title">Popular Routes</div>
+          <div class="routes-grid" id="bookRoutesGrid"></div>
+          <div class="section-title">Quick Destinations</div>
+          <div class="cities-grid" id="bookCitiesGrid"></div>
+        </div>
+
+      </div>
+    </div><!-- /screen-book -->
+
+    <!-- ══════════════════════════════════════
+         SCREEN: RESULTS
+    ══════════════════════════════════════ -->
+    <div class="screen page" id="screen-results">
+
+      <div class="back-link" onclick="goScreen('book')">← Back to search</div>
+
+      <div class="results-main">
+
+        <!-- Filter panel (sidebar on desktop, stacked on mobile) -->
+        <div class="results-filter-panel">
+          <div class="section-title">Filter Results</div>
+          <div class="filter-row" id="filterRow">
+            <button class="filter-pill active" onclick="applyFilter(this,'all')">All Vehicles</button>
+            <button class="filter-pill"        onclick="applyFilter(this,'bus')">🚌 Bus</button>
+            <button class="filter-pill"        onclick="applyFilter(this,'mini')">🚐 Mini Bus</button>
+            <button class="filter-pill"        onclick="applyFilter(this,'auto')">🛺 Auto/Jeep</button>
+            <button class="filter-pill"        onclick="applyFilter(this,'low')">💰 Cheapest First</button>
+          </div>
+        </div>
+
+        <!-- Vehicle cards -->
+        <div>
+          <div class="results-info">
+            <div class="results-route" id="rRoute">Mathura → Vrindavan</div>
+            <div class="results-meta"  id="rMeta">Loading…</div>
+          </div>
+          <div id="resultsList"></div>
+        </div>
+
+      </div>
+    </div><!-- /screen-results -->
+
+    <!-- ══════════════════════════════════════
+         SCREEN: MY TICKETS
+    ══════════════════════════════════════ -->
+    <div class="screen page" id="screen-tickets">
+      <div class="section-title">My Tickets</div>
+      <div id="myTicketsList"></div>
+    </div><!-- /screen-tickets -->
+
+    <!-- ══════════════════════════════════════
+         SCREEN: HELP
+    ══════════════════════════════════════ -->
+    <div class="screen page" id="screen-help">
+
+      <div class="section-title">Help &amp; Support</div>
+
+      <div class="help-card">
+        <div class="help-item" onclick="toast('📞 Calling 1800-000-0000…')">
+          <div class="hi-icon" style="background:var(--green-bg)">📞</div>
+          <div class="hi-text">
+            <div class="hi-title">Call Helpline</div>
+            <div class="hi-sub">1800-000-0000 · Free · Mon–Sun</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+        <div class="help-item" onclick="toast('📱 Opening WhatsApp…')">
+          <div class="hi-icon" style="background:var(--green-bg)">💬</div>
+          <div class="hi-text">
+            <div class="hi-title">WhatsApp Support</div>
+            <div class="hi-sub">Chat with us anytime</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+        <div class="help-item" onclick="toast('📧 Opening email…')">
+          <div class="hi-icon" style="background:var(--blue-bg)">📧</div>
+          <div class="hi-text">
+            <div class="hi-title">Email Us</div>
+            <div class="hi-sub">help@brajride.in</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:20px">FAQs</div>
+
+      <div class="help-card">
+        <div class="help-item" onclick="toast('Show e-ticket to conductor and board!')">
+          <div class="hi-icon" style="background:var(--accent-light)">❓</div>
+          <div class="hi-text">
+            <div class="hi-title">How do I board with e-ticket?</div>
+            <div class="hi-sub">Tap to know more</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+        <div class="help-item" onclick="toast('Refund in 3–5 working days after cancellation')">
+          <div class="hi-icon" style="background:var(--accent-light)">💰</div>
+          <div class="hi-text">
+            <div class="hi-title">When will I get refund?</div>
+            <div class="hi-sub">Cancellation &amp; refund policy</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+        <div class="help-item" onclick="toast('Go to My Tickets → Cancel Ticket')">
+          <div class="hi-icon" style="background:var(--red-bg)">❌</div>
+          <div class="hi-text">
+            <div class="hi-title">How to cancel a ticket?</div>
+            <div class="hi-sub">Steps to cancel booking</div>
+          </div>
+          <span class="hi-arrow">›</span>
+        </div>
+      </div>
+
+      <div class="team-footer">
+        <div class="tf-logo">🛺 BrajRide</div>
+        <div class="tf-tag">Connecting Braj, one ride at a time</div>
+        <div class="tf-label">Team Members</div>
+        <div class="tf-name">Anurag Raj Pandey · Astha Parua · Ayush Upadhyay</div>
+        <div class="tf-copy">Version 1.0 · © 2026 BrajRide</div>
+      </div>
+
+    </div><!-- /screen-help -->
+
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<!-- ── BOTTOM NAV (mobile) ──────────────────────────────────── -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-item active" onclick="goScreen('home')"    data-screen="home">
+    <span class="bn-icon">🏠</span><span class="bn-label">Home</span>
+  </button>
+  <button class="bn-item"        onclick="goScreen('book')"    data-screen="book">
+    <span class="bn-icon">🔍</span><span class="bn-label">Book</span>
+  </button>
+  <button class="bn-item"        onclick="goScreen('tickets')" data-screen="tickets">
+    <span class="bn-icon">🎫</span><span class="bn-label">Tickets</span>
+  </button>
+  <button class="bn-item"        onclick="goScreen('help')"    data-screen="help">
+    <span class="bn-icon">❓</span><span class="bn-label">Help</span>
+  </button>
+</nav>
+
+<!-- ── CITY PICKER SHEET ─────────────────────────────────────── -->
+<div class="overlay" id="cityOverlay" onclick="closePicker(event)">
+  <div class="picker-sheet">
+    <div class="picker-header">
+      <div class="picker-title" id="pickerTitle">Select Location</div>
+      <button class="picker-close" onclick="closePicker()">✕</button>
+    </div>
+    <div class="picker-search">
+      <span style="font-size:14px">🔍</span>
+      <input type="text" id="citySearch" placeholder="Search village or city…" oninput="filterCities(this.value)">
+    </div>
+    <div class="city-list" id="cityList"></div>
+  </div>
+</div>
+
+<!-- ── BOOKING MODAL ──────────────────────────────────────────── -->
+<div class="modal-overlay" id="bookModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Choose Seats</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
